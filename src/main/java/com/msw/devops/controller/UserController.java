@@ -6,7 +6,6 @@ import com.msw.devops.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -28,8 +27,10 @@ public class UserController {
     @GetMapping("/query/{id}")
     public User getUserList(@PathVariable Integer id){
         User user = userMapper.selectByMsw(id);
-        redisTemplate.opsForValue().set("小威", user.toString());
-        System.err.println(redisTemplate.opsForValue().get("小威"));
+        if (user != null) {
+            redisTemplate.opsForValue().set("小威", user.toString());
+            System.err.println(redisTemplate.opsForValue().get("小威"));
+        }
         return user;
     }
 
