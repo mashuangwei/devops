@@ -23,8 +23,8 @@ public class MybatisplusDemoApplicationTests {
     @Test
     public void testAddUser() {
         User user = new User();
-        user.setName("测试用户" + random.nextInt());
-        user.setAge(random.nextInt(100));
+        user.setUsername("测试用户" + random.nextInt());
+        user.setStatus("1");
         userService.addUser(user);
     }
 

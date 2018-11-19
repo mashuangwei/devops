@@ -24,9 +24,9 @@ public class UserController {
         return userService.list(null);
     }
 
-    @GetMapping("/query/{id}")
-    public User getUserList(@PathVariable Integer id){
-        User user = userMapper.selectByMsw(id);
+    @GetMapping("/query/{username}")
+    public User getUserList(@PathVariable String username){
+        User user = userMapper.findByUserName(username);
         if (user != null) {
             redisTemplate.opsForValue().set("小威", user.toString());
             System.err.println(redisTemplate.opsForValue().get("小威"));

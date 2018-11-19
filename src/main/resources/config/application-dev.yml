@@ -24,13 +24,13 @@ spring:
         max-open-prepared-statements: 100
         filters: stat,wall
         share-prepared-statements: true
-      primary: atdb #记得设置一个默认数据源
+      primary: at_master #记得设置一个默认数据源
       datasource:
-        atdb:
+        at_master:
           username: root
-          password: root
+          password: 19871021
           driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://192.168.162.223:3306/dynamic?characterEncoding=utf8&useSSL=false
+          url: jdbc:mysql://47.97.206.13:3306/at_master?characterEncoding=utf8&useSSL=false
         #          druid: # 以下参数针对每个库可以重新设置druid参数
         #            initial-size:
         #            max-active:
@@ -48,11 +48,11 @@ spring:
         #            max-open-prepared-statements:
         #            filters:
         #            share-prepared-statements:
-        easydb:
+        at_slave:
           username: root
-          password: root
+          password: 19871021
           driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://192.168.162.223:3306/dynamic?characterEncoding=utf8&useSSL=false
+          url: jdbc:mysql://47.97.206.13:3306/at_slave?characterEncoding=utf8&useSSL=false
   cache:
     type: redis
     redis:
