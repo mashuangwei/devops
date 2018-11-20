@@ -28,9 +28,9 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://47.100.20.186:3306/dynamic"
+                        connectionURL="jdbc:mysql://47.97.206.13:3306/at_master"
                         userId="root"
-                        password="123456"/>
+                        password="19871021"/>
 
         <javaModelGenerator targetPackage="com.msw.devops.entity"
                             targetProject="src/main/java">
@@ -48,10 +48,25 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table  tableName="tb_person"  domainObjectName="Person"
+        <table  tableName="tb_user_role"  domainObjectName="UserRole"
         enableCountByExample="false"   enableUpdateByExample="false"
         enableDeleteByExample="false"  enableSelectByExample="false"
         selectByExampleQueryId="false">
+        </table>
+        <table  tableName="tb_role"  domainObjectName="Role"
+                enableCountByExample="false"   enableUpdateByExample="false"
+                enableDeleteByExample="false"  enableSelectByExample="false"
+                selectByExampleQueryId="false">
+        </table>
+        <table  tableName="tb_permission"  domainObjectName="Permission"
+                enableCountByExample="false"   enableUpdateByExample="false"
+                enableDeleteByExample="false"  enableSelectByExample="false"
+                selectByExampleQueryId="false">
+        </table>
+        <table  tableName="tb_role_permission"  domainObjectName="RolePermission"
+                enableCountByExample="false"   enableUpdateByExample="false"
+                enableDeleteByExample="false"  enableSelectByExample="false"
+                selectByExampleQueryId="false">
         </table>
 
         <!--<table  tableName="TB_MOS_SYS_FILE"  domainObjectName="MosSysFile"-->

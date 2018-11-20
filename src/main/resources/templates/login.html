@@ -11,6 +11,8 @@
     <div class="form">
         <input type="text" placeholder="用户名" name="username" required="required" value="mrbird"/>
         <input type="password" placeholder="密码" name="password" value="123456" required="required"/>
+        <p><input type="checkbox" name="rememberMe" />记住我</p>
+
         <button onclick="login()">登录</button>
     </div>
 </div>
@@ -20,10 +22,11 @@
         function login() {
             var username = $("input[name='username']").val();
             var password = $("input[name='password']").val();
+            var rememberMe = $("input[name='rememberMe']").is(':checked');
             $.ajax({
                 type: "post",
                 url: ctx + "login",
-                data: {"username": username,"password": password},
+                data: {"username": username,"password": password,"rememberMe": rememberMe},
                 dataType: "json",
                 success: function (r) {
                     if (r.code === 200) {

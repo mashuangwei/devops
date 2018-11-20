@@ -1,8 +1,11 @@
 package com.msw.devops.exception;
 
 import com.msw.devops.util.ResultUtil;
+import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author mashuangwei
  */
 @ControllerAdvice
-@ResponseBody
+@Order(value = Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
@@ -45,6 +48,11 @@ public class GlobalExceptionHandler {
             return ResultUtil.error(500, e.getMessage());
         }
 
+    }
+
+    @ExceptionHandler(value = AuthorizationException.class)
+    public String handleAuthorizationException() {
+        return "403";
     }
 
 }
