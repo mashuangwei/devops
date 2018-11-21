@@ -48,26 +48,32 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table  tableName="tb_user_role"  domainObjectName="UserRole"
+        <table  tableName="sys_log"  domainObjectName="SysLog"
         enableCountByExample="false"   enableUpdateByExample="false"
         enableDeleteByExample="false"  enableSelectByExample="false"
         selectByExampleQueryId="false">
         </table>
-        <table  tableName="tb_role"  domainObjectName="Role"
-                enableCountByExample="false"   enableUpdateByExample="false"
-                enableDeleteByExample="false"  enableSelectByExample="false"
-                selectByExampleQueryId="false">
-        </table>
-        <table  tableName="tb_permission"  domainObjectName="Permission"
-                enableCountByExample="false"   enableUpdateByExample="false"
-                enableDeleteByExample="false"  enableSelectByExample="false"
-                selectByExampleQueryId="false">
-        </table>
-        <table  tableName="tb_role_permission"  domainObjectName="RolePermission"
-                enableCountByExample="false"   enableUpdateByExample="false"
-                enableDeleteByExample="false"  enableSelectByExample="false"
-                selectByExampleQueryId="false">
-        </table>
+
+        <!--<table  tableName="tb_user"  domainObjectName="User"-->
+        <!--enableCountByExample="false"   enableUpdateByExample="false"-->
+        <!--enableDeleteByExample="false"  enableSelectByExample="false"-->
+        <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
+        <!--<table  tableName="tb_role"  domainObjectName="Role"-->
+                <!--enableCountByExample="false"   enableUpdateByExample="false"-->
+                <!--enableDeleteByExample="false"  enableSelectByExample="false"-->
+                <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
+        <!--<table  tableName="tb_permission"  domainObjectName="Permission"-->
+                <!--enableCountByExample="false"   enableUpdateByExample="false"-->
+                <!--enableDeleteByExample="false"  enableSelectByExample="false"-->
+                <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
+        <!--<table  tableName="tb_role_permission"  domainObjectName="RolePermission"-->
+                <!--enableCountByExample="false"   enableUpdateByExample="false"-->
+                <!--enableDeleteByExample="false"  enableSelectByExample="false"-->
+                <!--selectByExampleQueryId="false">-->
+        <!--</table>-->
 
         <!--<table  tableName="TB_MOS_SYS_FILE"  domainObjectName="MosSysFile"-->
                 <!--enableCountByExample="false"   enableUpdateByExample="false"-->

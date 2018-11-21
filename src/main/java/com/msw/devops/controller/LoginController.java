@@ -1,5 +1,6 @@
 package com.msw.devops.controller;
 
+import com.msw.devops.annotation.Log;
 import com.msw.devops.config.RedisProperties;
 import com.msw.devops.entity.User;
 import com.msw.devops.exception.Result;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
-    @Autowired
-    RedisProperties redisProperties;
 
     @GetMapping("/login")
     public String login() {
@@ -27,7 +26,6 @@ public class LoginController {
     @PostMapping("/login")
     @ResponseBody
     public Result login(String username, String password, @RequestParam(required = false, defaultValue = "false") boolean rememberMe) {
-        System.err.println(redisProperties.getHost());
         // 密码MD5加密
         password = MD5Utils.encrypt(username, password);
         UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
