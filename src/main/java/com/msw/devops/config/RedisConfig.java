@@ -44,10 +44,6 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private int port;
 
-//    @Value("${spring.redis.timeout}")
-//    private int timeout;
-
-
     @Bean
     public KeyGenerator keyGenerator() {
         return new KeyGenerator() {
