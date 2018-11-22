@@ -7,7 +7,6 @@ import lombok.Data;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.crazycake.shiro.RedisManager;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
@@ -38,6 +37,16 @@ public class RedisConfig {
 
     @Resource
     private LettuceConnectionFactory lettuceConnectionFactory;
+
+    @Value("${spring.redis.host}")
+    private String host;
+
+    @Value("${spring.redis.port}")
+    private int port;
+
+//    @Value("${spring.redis.timeout}")
+//    private int timeout;
+
 
     @Bean
     public KeyGenerator keyGenerator() {
