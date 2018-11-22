@@ -38,16 +38,6 @@ public class RedisConfig {
     @Resource
     private LettuceConnectionFactory lettuceConnectionFactory;
 
-    @Value("${spring.redis.host}")
-    private String host;
-
-    @Value("${spring.redis.port}")
-    private int port;
-
-//    @Value("${spring.redis.timeout}")
-//    private int timeout;
-
-
     @Bean
     public KeyGenerator keyGenerator() {
         return new KeyGenerator() {
