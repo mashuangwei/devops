@@ -20,6 +20,7 @@ import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.shiro.mgt.SecurityManager;
@@ -41,9 +42,6 @@ public class ShiroConfig {
 
     @Value("${spring.redis.port}")
     private int port;
-
-    @Value("${spring.redis.timeout}")
-    private int timeout;
 
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
@@ -88,7 +86,7 @@ public class ShiroConfig {
         genericObjectPoolConfig.setMaxIdle(100);
         genericObjectPoolConfig.setMaxTotal(100);
         genericObjectPoolConfig.setMinIdle(10);
-        JedisPool jedisPool = new JedisPool(genericObjectPoolConfig, "60.205.182.158", 6379,
+        JedisPool jedisPool = new JedisPool(genericObjectPoolConfig, host, port,
                 7200);
 
         redisManager.setJedisPool(jedisPool);
@@ -176,8 +174,12 @@ public class ShiroConfig {
         return advisorAutoProxyCreator;
     }
 
+    /**
+     * 加static修饰是因为本类中使用@Value取不到值，也不知道为啥
+     * @return
+     */
     @Bean(name = "lifecycleBeanPostProcessor")
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
+    public static LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         // Shiro生命周期处理器
         return new LifecycleBeanPostProcessor();
     }
