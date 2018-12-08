@@ -1,4 +1,6 @@
 FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-ADD devops.jar app.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+VOLUME /temp
+EXPOSE 8889
+ARG JAR_FILE=target/devops-0.0.1-SNAPSHOT.jar
+ADD ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","app.jar"]
