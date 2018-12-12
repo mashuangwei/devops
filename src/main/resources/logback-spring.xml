@@ -67,6 +67,37 @@
         </triggeringPolicy>
     </appender>
 
+    <!-- 为logstash输出的JSON格式的Appender -->
+    <appender name="logstash"
+              class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>192.168.31.115:5044</destination>
+        <!-- 日志输出编码 -->
+        <encoder
+                class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "severity": "%level",
+                        "service": "${springAppName:-}",
+                        "trace": "%X{X-B3-TraceId:-}",
+                        "span": "%X{X-B3-SpanId:-}",
+                        "exportable": "%X{X-Span-Export:-}",
+                        "pid": "${PID:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "rest": "%message"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+
     <!--用来设置某一个包或者具体的某一个类的日志打印级别-->
     <!--打印MyBatis的sql语句-->
     <logger name="com.msw.devops.mapper" level="DEBUG"></logger>
@@ -82,6 +113,7 @@
     <springProfile name="dev,qa">
         <root level="INFO">
             <appender-ref ref="STDOUT"/>
+            <appender-ref ref="logstash" />
         </root>
     </springProfile>
 
@@ -89,6 +121,7 @@
     <springProfile name="prod">
         <root level="INFO">
             <appender-ref ref="FILE"/>
+            <appender-ref ref="logstash" />
         </root>
     </springProfile>
 </configuration>
