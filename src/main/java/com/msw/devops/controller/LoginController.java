@@ -4,6 +4,7 @@ import com.msw.devops.annotation.Log;
 import com.msw.devops.config.RedisProperties;
 import com.msw.devops.entity.User;
 import com.msw.devops.exception.Result;
+import com.msw.devops.input.LoginUser;
 import com.msw.devops.util.MD5Utils;
 import com.msw.devops.util.ResultUtil;
 import org.apache.shiro.SecurityUtils;
@@ -25,10 +26,10 @@ public class LoginController {
 
     @PostMapping("/login")
     @ResponseBody
-    public Result login(String username, String password, @RequestParam(required = false, defaultValue = "false") boolean rememberMe) {
+    public Result login(@RequestBody LoginUser loginUser) {
         // 密码MD5加密
-        password = MD5Utils.encrypt(username, password);
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+        String password = MD5Utils.encrypt(loginUser.getUsername(), loginUser.getPassword());
+        UsernamePasswordToken token = new UsernamePasswordToken(loginUser.getUsername(), password, loginUser.isRememberMe());
 
         // 获取Subject对象
         Subject subject = SecurityUtils.getSubject();
