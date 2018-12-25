@@ -15,6 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Controller
 public class LoginController {
@@ -45,6 +50,27 @@ public class LoginController {
         } catch (AuthenticationException e) {
             return ResultUtil.error(400, "认证失败！");
         }
+    }
+
+    /**
+     * 未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
+     * @return
+     */
+    @RequestMapping(value = "/unauth")
+    @ResponseBody
+    public Result unauth() {
+        return ResultUtil.success(200, "未登录或者登录已过期");
+    }
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public Result logout(HttpServletResponse response, HttpServletRequest request){
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+
+        return ResultUtil.success(200, "注销成功");
     }
 
     @RequestMapping("/")
