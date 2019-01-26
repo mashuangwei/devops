@@ -9,12 +9,11 @@ import com.msw.devops.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
-@DS("at_slave")
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Override
-    @DS("at_master")//这里必须包一层，不能调用mp默认的插入，因为会走到从库去
-    public int addUser(User user) {
-         return baseMapper.insert(user);
-    }
+//    @Override
+//    @DS("at_master")//这里必须包一层，不能调用mp默认的插入，因为会走到从库去
+//    public int addUser(User user) {
+//         return baseMapper.insert(user);
+//    }
 }

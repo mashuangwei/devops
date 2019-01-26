@@ -26,8 +26,9 @@
             $.ajax({
                 type: "post",
                 url: ctx + "login",
-                data: {"username": username,"password": password,"rememberMe": rememberMe},
+                data: JSON.stringify({"username": username,"password": password,"rememberMe": rememberMe}),
                 dataType: "json",
+                contentType: "application/json",
                 success: function (r) {
                     if (r.code === 200) {
                         location.href = ctx + 'index';

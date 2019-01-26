@@ -1,24 +1,32 @@
 package com.msw.devops.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@TableName("tb_user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 3828664328316633856L;
 
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     private String username;
 
     private String password;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
-    private String status;
+    private String status = "1";
 
     public Integer getId() {
         return id;

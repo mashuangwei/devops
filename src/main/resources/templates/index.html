@@ -11,7 +11,7 @@
 <p shiro:hasRole="test">你的角色为测试账户</p>
 <div>
     <a shiro:hasPermission="user:user" th:href="@{/user/list}">获取用户信息</a>
-    <a shiro:hasPermission="user:add" th:href="@{/user/add}">新增用户</a>
+    <a shiro:hasPermission="user:add" th:href="@{/user/test/add}">新增用户</a>
     <a shiro:hasPermission="user:delete" th:href="@{/user/delete}">删除用户</a>
 </div>
 <a shiro:hasRole="admin" th:href="@{/online/index}">在线用户管理</a>

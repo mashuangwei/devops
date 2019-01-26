@@ -21,7 +21,7 @@
 
 
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-    <property name="LOG_HOME" value="/usr/local/msw/logs"/>
+    <property name="LOG_HOME" value="/home/log"/>
     <!-- 读取 spring.application.name 属性来生成日志文件名
         scope：作用域
         name：在 logback-spring.xml 使用的键
@@ -49,14 +49,18 @@
         </encoder>
     </appender>
 
-    <!-- 按照每天生成日志文件 -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- 按照每天生成日志文件，通过filebeat发送到logstash -->
+    <appender name="devlog" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
             <FileNamePattern>${LOG_HOME}/${logname}.%d{yyyy-MM-dd}.log</FileNamePattern>
             <!--日志文件保留天数-->
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" >
+            <jsonFactoryDecorator class="com.msw.devops.log.MyJsonFactoryDecorator" />
+            <customFields>{"appname":"${logname}"}</customFields>
+        </encoder>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
@@ -64,6 +68,24 @@
         <!--日志文件最大的大小-->
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
             <MaxFileSize>30MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <!-- 输出到ELK文件 -->
+    <appender name="elkLog"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}${file.separator}ELK-%d{yyyy-MM-dd}.log</file>
+        <append>true</append>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" >
+            <jsonFactoryDecorator class="com.msw.devops.log.MyJsonFactoryDecorator" />
+            <customFields>{"appname":"${logname}"}</customFields>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_HOME}${file.separator}all${file.separator}%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
         </triggeringPolicy>
     </appender>
 
@@ -97,16 +119,16 @@
         <!--</encoder>-->
     <!--</appender>-->
 
-    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <param name="Encoding" value="UTF-8"/>
-        <remoteHost>192.168.165.58</remoteHost>
-        <port>10514</port>
-        <!-- <filter class="com.program.interceptor.ELKFilter"/>-->//引入过滤类
-        <!-- encoder is required -->
-        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" >
-            <customFields>{"appname":"${logname}"}</customFields>
-        </encoder>
-    </appender>
+    <!--<appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">-->
+        <!--<param name="Encoding" value="UTF-8"/>-->
+        <!--<remoteHost>192.168.165.58</remoteHost>-->
+        <!--<port>10514</port>-->
+        <!--&lt;!&ndash; <filter class="com.program.interceptor.ELKFilter"/>&ndash;&gt;//引入过滤类-->
+        <!--&lt;!&ndash; encoder is required &ndash;&gt;-->
+        <!--<encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" >-->
+            <!--<customFields>{"appname":"${logname}"}</customFields>-->
+        <!--</encoder>-->
+    <!--</appender>-->
     <!--用来设置某一个包或者具体的某一个类的日志打印级别-->
     <!--打印MyBatis的sql语句-->
     <logger name="com.msw.devops.mapper" level="DEBUG"></logger>
@@ -122,15 +144,16 @@
     <springProfile name="dev,qa">
         <root level="INFO">
             <appender-ref ref="STDOUT"/>
-            <appender-ref ref="logstash" />
+            <appender-ref ref="devlog"/>
+            <!--<appender-ref ref="logstash" />-->
         </root>
     </springProfile>
 
     <!-- 生产环境日志级别为INFO/并且记录日志文件 -->
     <springProfile name="prod">
         <root level="INFO">
-            <appender-ref ref="FILE"/>
-            <appender-ref ref="logstash" />
+            <appender-ref ref="devlog"/>
+            <!--<appender-ref ref="logstash" />-->
         </root>
     </springProfile>
 </configuration>

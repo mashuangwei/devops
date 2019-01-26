@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -24,12 +24,20 @@
     delete from tb_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.msw.devops.entity.User">
+  <insert id="insert" parameterType="com.msw.devops.entity.User" useGeneratedKeys="true" keyProperty="id">
     insert into tb_user (id, username, `password`,
       create_time, `status`)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-      #{createTime,jdbcType=DATE}, #{status,jdbcType=VARCHAR})
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
   </insert>
+
+  <insert id="addUser" parameterType="com.msw.devops.entity.User" useGeneratedKeys="true" keyProperty="id">
+    insert into tb_user (id, username, `password`,
+      create_time, `status`)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+  </insert>
+
   <insert id="insertSelective" parameterType="com.msw.devops.entity.User">
     insert into tb_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -60,7 +68,7 @@
         #{password,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        #{createTime,jdbcType=DATE},
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
@@ -77,7 +85,7 @@
         `password` = #{password,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        create_time = #{createTime,jdbcType=DATE},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         `status` = #{status,jdbcType=VARCHAR},
@@ -89,7 +97,7 @@
     update tb_user
     set username = #{username,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=DATE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       `status` = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

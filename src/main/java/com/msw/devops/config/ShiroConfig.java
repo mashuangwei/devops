@@ -52,7 +52,8 @@ public class ShiroConfig {
         // 设置securityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 登录的url
-        shiroFilterFactoryBean.setLoginUrl("/ajaxlogin");
+//        shiroFilterFactoryBean.setLoginUrl("/ajaxlogin");
+        shiroFilterFactoryBean.setLoginUrl("/unauth");
         // 登录成功后跳转的url
         shiroFilterFactoryBean.setSuccessUrl("/index");
         // 未授权url
@@ -65,15 +66,17 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
+        filterChainDefinitionMap.put("/login", "anon");
+        filterChainDefinitionMap.put("/logout", "anon");
         // druid数据源监控页面不拦截
         filterChainDefinitionMap.put("/druid/**", "anon");
         // 配置退出过滤器，其中具体的退出代码Shiro已经替我们实现了
-        filterChainDefinitionMap.put("/logout", "logout");
+//        filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         filterChainDefinitionMap.put("/", "anon");
         // 除上以外所有url都必须认证通过才可以访问，未通过认证自动访问LoginUrl
-        filterChainDefinitionMap.put("/**", "user");
-
+//        filterChainDefinitionMap.put("/**", "user");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

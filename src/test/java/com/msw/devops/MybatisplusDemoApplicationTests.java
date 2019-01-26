@@ -25,7 +25,7 @@ public class MybatisplusDemoApplicationTests {
         User user = new User();
         user.setUsername("测试用户" + random.nextInt());
         user.setStatus("1");
-        userService.addUser(user);
+//        userService.addUser(user);
     }
 
     @Test

@@ -40,9 +40,9 @@ spring:
       datasource:
         at_master:
           username: root
-          password: 19871021
+          password: root
           driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://47.97.206.13:3306/at_master?characterEncoding=utf8&useSSL=false
+          url: jdbc:mysql://192.168.162.223:3306/at_master?characterEncoding=utf8&useSSL=false
         #          druid: # 以下参数针对每个库可以重新设置druid参数
         #            initial-size:
         #            max-active:
@@ -64,7 +64,7 @@ spring:
           username: root
           password: 19871021
           driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://47.97.206.13:3306/at_slave?characterEncoding=utf8&useSSL=false
+          url: jdbc:mysql://192.168.162.223:3306/at_slave?characterEncoding=utf8&useSSL=false
   cache:
     type: redis
     redis:

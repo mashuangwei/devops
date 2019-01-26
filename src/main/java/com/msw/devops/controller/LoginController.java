@@ -7,6 +7,7 @@ import com.msw.devops.config.RedisProperties;
 import com.msw.devops.entity.AjaxUser;
 import com.msw.devops.entity.User;
 import com.msw.devops.exception.Result;
+import com.msw.devops.input.LoginUser;
 import com.msw.devops.util.MD5Utils;
 import com.msw.devops.util.ResultUtil;
 import org.apache.shiro.SecurityUtils;
@@ -18,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
@@ -30,10 +33,10 @@ public class LoginController {
 
     @PostMapping("/login")
     @ResponseBody
-    public Result login(String username, String password, @RequestParam(required = false, defaultValue = "false") boolean rememberMe) {
+    public Result login(@RequestBody LoginUser loginUser) {
         // 密码MD5加密
-        password = MD5Utils.encrypt(username, password);
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password, rememberMe);
+        String password = MD5Utils.encrypt(loginUser.getUsername(), loginUser.getPassword());
+        UsernamePasswordToken token = new UsernamePasswordToken(loginUser.getUsername(), password, loginUser.isRememberMe());
 
         // 获取Subject对象
         Subject subject = SecurityUtils.getSubject();
@@ -84,6 +87,27 @@ public class LoginController {
         } catch (AuthenticationException e) {
             return ResultUtil.error(400, "认证失败！");
         }
+    }
+
+    /**
+     * 未登录，shiro应重定向到登录界面，此处返回未登录状态信息由前端控制跳转页面
+     * @return
+     */
+    @RequestMapping(value = "/unauth")
+    @ResponseBody
+    public Result unauth() {
+        return ResultUtil.success(200, "未登录或者登录已过期");
+    }
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public Result logout(HttpServletResponse response, HttpServletRequest request){
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+
+        return ResultUtil.success(200, "注销成功");
     }
 
     @RequestMapping("/")
