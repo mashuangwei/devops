@@ -43,13 +43,16 @@ public class ShiroConfig {
     @Value("${spring.redis.port}")
     private int port;
 
+    @Value("${spring.redis.password}")
+    private String password;
+
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         // 设置securityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
         // 登录的url
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setLoginUrl("/ajaxlogin");
         // 登录成功后跳转的url
         shiroFilterFactoryBean.setSuccessUrl("/index");
         // 未授权url
@@ -87,7 +90,7 @@ public class ShiroConfig {
         genericObjectPoolConfig.setMaxTotal(100);
         genericObjectPoolConfig.setMinIdle(10);
         JedisPool jedisPool = new JedisPool(genericObjectPoolConfig, host, port,
-                7200);
+                7200, password);
 
         redisManager.setJedisPool(jedisPool);
         return redisManager;
